@@ -35,6 +35,7 @@ const SearchBar = () => {
                 }]}
             >
                 <Input
+                    autoFocus
                     size="large"
                     placeholder="Search for a weather forecast by city name or zip code"
                 />
