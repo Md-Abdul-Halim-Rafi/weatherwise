@@ -1,9 +1,9 @@
+import React, { Suspense } from "react";
 import { Typography, Skeleton } from "antd";
 import qs from "query-string";
 import { useQuery, QueryFunctionContext } from "react-query";
 import { axios } from "./common/utils/axios-instance.utils";
 
-import SearchBar from "./components/SearchBar";
 import WeatherResult from "./components/WeatherResult";
 
 import { SearchParams, WeatherQueryResponse } from "./common/interfaces";
@@ -11,6 +11,8 @@ import { SearchParams, WeatherQueryResponse } from "./common/interfaces";
 import "./App.css";
 
 const { Title, Text } = Typography;
+
+const SearchBar = React.lazy(() => import("./components/SearchBar"));
 
 function App() {
 
@@ -52,13 +54,19 @@ function App() {
 			<a href="/">
 				<Title level={1}>Weather Wise</Title>
 			</a>
-			<SearchBar />
+			<Suspense
+				fallback={
+					<Skeleton.Input size="large" style={{ width: "100%" }} />
+				}
+			>
+				<SearchBar />
+			</Suspense>
 			{
 				isLoading ?
 					<Skeleton /> :
 					data && data.current ?
-						<WeatherResult 
-							current={data.current}  
+						<WeatherResult
+							current={data.current}
 							forecast={data.forecast}
 							location={data.location}
 						/> : null

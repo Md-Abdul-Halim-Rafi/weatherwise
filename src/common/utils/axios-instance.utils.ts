@@ -21,6 +21,10 @@ axios.interceptors.response.use(function(response) {
 
     if (status !== 200 && errorData.error) {
         return Promise.reject(errorData.error.message)
+    } else if (status === 429) {
+        return Promise.reject("Too many requests. Please try again later.")
+    } else if (status === 401) {
+        return Promise.reject("Invalid API key. Please ask your engineers to recheck and try again.")
     }
     return Promise.reject(err)
 })
