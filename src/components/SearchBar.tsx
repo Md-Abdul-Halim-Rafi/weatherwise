@@ -1,27 +1,30 @@
 import { Input, Form } from "antd";
+import qs from "query-string";
 import styled from "styled-components";
-import { SearchParams } from "../../common/interfaces";
+import { SearchParams } from "../common/interfaces";
 
 const FormWrapper = styled(Form)`
     border-radius: 6px;
+    position: sticky;
+    top: 20px;
 `;
 
 const initialValues: SearchParams = {
-    q: "",
+    q: qs.parse(window.location.search).q as string || "",
 };
 
 const SearchBar = () => {
 
     const onSearchSubmit = (values: SearchParams) => {
-        window.history.pushState({}, "", `?q=${values.q}`);
+        window.location.href = `?q=${values.q}`;
     }
 
     return (
         <FormWrapper
             name="basic"
-            initialValues={initialValues}
             autoComplete="off"
             validateTrigger="onSubmit"
+            initialValues={initialValues}
             onFinish={(values) => onSearchSubmit(values as SearchParams)}
         >
             <Form.Item
@@ -32,7 +35,6 @@ const SearchBar = () => {
                 }]}
             >
                 <Input
-                    allowClear
                     size="large"
                     placeholder="Search for a weather forecast by city name or zip code"
                 />

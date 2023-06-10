@@ -1,9 +1,10 @@
-import { Typography } from "antd";
+import { Typography, Skeleton } from "antd";
 import qs from "query-string";
 import { useQuery, QueryFunctionContext } from "react-query";
-import { axios } from "./utils/axios-instance";
+import { axios } from "./common/utils/axios-instance.utils";
 
-import SearchBar from "./components/SearchBar/SearchBar";
+import SearchBar from "./components/SearchBar";
+import WeatherResult from "./components/WeatherResult";
 
 import { SearchParams, WeatherQueryResponse } from "./common/interfaces";
 
@@ -14,6 +15,10 @@ const { Title, Text } = Typography;
 function App() {
 
 	const searchForWeather = async (queryData: QueryFunctionContext) => {
+
+		const parsedQ = qs.parse(queryData.queryKey[1] as string).q;
+
+		if (!parsedQ) return null;
 
 		const searchParams = qs.parse(queryData.queryKey[1] as string) as unknown as SearchParams;
 
@@ -28,7 +33,6 @@ function App() {
 			return data;
 
 		} catch (err) {
-			// TODO: Handle error				
 			throw err;
 		}
 	};
@@ -40,13 +44,25 @@ function App() {
 		refetchOnMount: false,
 		staleTime: 5 * 60 * 1000,
 		refetchOnWindowFocus: false,
-		enabled: qs.parse(window.location.search).q !== undefined,
+		// enabled: qs.parse(window.location.search).q !== undefined,
 	});
 
 	return (
 		<div className="App">
-			<Title level={1}>Weather Wise</Title>
+			<a href="/">
+				<Title level={1}>Weather Wise</Title>
+			</a>
 			<SearchBar />
+			{
+				isLoading ?
+					<Skeleton /> :
+					data && data.current ?
+						<WeatherResult 
+							current={data.current}  
+							forecast={data.forecast}
+							location={data.location}
+						/> : null
+			}
 			{
 				isError && (
 					<Text

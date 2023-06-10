@@ -1,4 +1,4 @@
-interface ForcastDay {
+export interface ForecastDay {
     date: string;
     day: {
         avgtemp_c: number;
@@ -11,6 +11,7 @@ interface ForcastDay {
         maxtemp_f: number;
         maxwind_kph: number;
         maxwind_mph: number;
+        avghumidity: number;
     }
 }
 
@@ -26,8 +27,11 @@ export interface WeatherQueryResponse {
         wind_kph: number;
         wind_mph: number;
         wind_dir: string;
+        last_updated: string;
     },
-    forcastday: ForcastDay[],
+    forecast: {
+        forecastday: ForecastDay[];
+    },
     location: {
         name: string;
         country: string;

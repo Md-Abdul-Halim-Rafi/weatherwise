@@ -1,7 +1,7 @@
 import axiosInstance, { AxiosError } from "axios";
 
-import { WEATHER_PROVIDER } from "../common/constants";
-import { ApiErrorResponse } from "../common/interfaces";
+import { WEATHER_PROVIDER } from "../constants";
+import { ApiErrorResponse } from "../interfaces";
 
 export const axios = axiosInstance.create({
     baseURL: `https://${WEATHER_PROVIDER.BASE_URL}`,
