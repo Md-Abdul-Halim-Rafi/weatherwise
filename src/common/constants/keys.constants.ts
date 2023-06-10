@@ -1,0 +1,4 @@
+export const WEATHER_PROVIDER = {
+    API_KEY: import.meta.env.VITE_RAPID_API_WEATHER_API_KEY,
+    BASE_URL: import.meta.env.VITE_RAPID_API_WEATHER_API_BASE_URL
+}
