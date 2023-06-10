@@ -18,6 +18,7 @@ const TodayData = styled.div`
 
 const { Title } = Typography;
 
+// Main component for the weather result
 const WeatherResult = (props: WeatherQueryResponse) => {
 
     return (
